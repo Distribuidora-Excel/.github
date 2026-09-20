@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Problema de seguridad
+    url: https://github.com/Distribuidora-Excel/.github/blob/main/SECURITY.md
+    about: No lo reportes como issue. Escribe a dmorales@diexsa.com con el asunto «Seguridad».

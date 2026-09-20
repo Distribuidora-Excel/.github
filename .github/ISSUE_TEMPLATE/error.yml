@@ -1,0 +1,30 @@
+name: Error
+description: Algo que hoy funciona mal.
+title: "fix: "
+labels: [error]
+body:
+  - type: textarea
+    id: que-pasa
+    attributes:
+      label: Qué pasa
+      description: Qué hiciste, qué esperabas y qué salió. Si hay un mensaje en pantalla, cópialo tal cual.
+    validations:
+      required: true
+  - type: textarea
+    id: pasos
+    attributes:
+      label: Cómo reproducirlo
+      placeholder: |
+        1. Entrar a…
+        2. Capturar…
+        3. Ver que…
+  - type: input
+    id: version
+    attributes:
+      label: Versión
+      description: La que muestra la aplicación, o la fecha del despliegue.
+  - type: textarea
+    id: datos
+    attributes:
+      label: Datos de ejemplo
+      description: Folios, claves o fechas que sirvan para encontrarlo. Sin datos de clientes ni contraseñas.

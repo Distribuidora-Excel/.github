@@ -1,0 +1,22 @@
+name: Mejora
+description: Algo que el sistema debería hacer y hoy no hace.
+title: "feat: "
+labels: [mejora]
+body:
+  - type: textarea
+    id: problema
+    attributes:
+      label: Qué problema resuelve
+      description: Qué se hace hoy a mano, qué tarda o qué se equivoca. El problema, no la solución.
+    validations:
+      required: true
+  - type: textarea
+    id: propuesta
+    attributes:
+      label: Cómo se vería
+      description: Si ya tienes una idea de la pantalla o del flujo, descríbela. Si no, déjalo vacío.
+  - type: dropdown
+    id: sistema
+    attributes:
+      label: Sistema
+      options: [ERP, Tienda en línea, API de almacén, App de almacén, Otro]
