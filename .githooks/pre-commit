@@ -1,0 +1,25 @@
+#!/bin/sh
+# Rechaza un commit que agrega un secreto (F2-07). Revisa sólo lo que va en el commit (--staged),
+# así que un falso positivo del historial no estorba mientras no se toque esa línea.
+#
+# Original en diexsa-ingenieria: plugins/diexsa/git-hooks/pre-commit. Cada repo lleva una copia en
+# .githooks/ que pone Instala-Hooks.ps1; no se edita aquí, se edita el original y se reinstala.
+#
+# Un falso positivo se permite en .gitleaksignore (por huella) o en .gitleaks.toml (por regla o
+# ruta), con un comentario que diga por qué no es un secreto. Nunca con --no-verify: la guardia
+# del plugin pide autorización para eso.
+
+if ! command -v gitleaks >/dev/null 2>&1; then
+  printf '\n%s\n' "commit rechazado: no está gitleaks, y este hook no deja pasar un commit sin revisar." >&2
+  printf '%s\n\n' "  instálalo con: winget install --id Gitleaks.Gitleaks -e" >&2
+  exit 1
+fi
+
+if ! gitleaks git --pre-commit --staged --redact --verbose --no-banner --log-level warn; then
+  printf '\n%s\n' "commit rechazado: gitleaks encontró un posible secreto en lo que vas a confirmar (arriba, con el valor tapado)." >&2
+  printf '%s\n' "  si es real: sácalo del archivo, usa una variable o el vault, y vuelve a agregarlo." >&2
+  printf '%s\n\n' "  si es un falso positivo: agrégalo a .gitleaksignore con un comentario de por qué." >&2
+  exit 1
+fi
+
+exit 0
