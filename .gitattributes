@@ -1,0 +1,16 @@
+# Estándar estandares/codificacion.md de diexsa-ingenieria: el índice en LF, cada copia con el fin de línea
+# de su plataforma, y lo que corre sh (los hooks) siempre en LF.
+* text=auto
+.githooks/** text eol=lf
+*.sh text eol=lf
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.pdf binary
+*.ttf binary
+*.otf binary
+*.woff binary
+*.woff2 binary
+*.zip binary
