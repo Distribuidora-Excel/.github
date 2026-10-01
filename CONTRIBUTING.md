@@ -6,12 +6,13 @@ lo que no cambia de uno a otro.
 
 ## Flujo
 
-1. Rama desde `main`, con nombre corto y descriptivo: `erp/cfdi-pendientes`, `ci/release-msix`.
+1. Rama desde `main`, con nombre `tipo/descripción` (el tipo es el del commit): `fix/cfdi-pendientes`, `ci/release-msix`.
    **Nunca se empuja directo a `main`.**
 2. Un commit por idea.
 3. Pruebas que acompañen al cambio. Si arreglas un error, primero la prueba que falla.
 4. Pull request con la plantilla: qué cambia, por qué, cómo se comprobó.
-5. Se fusiona con la integración continua en verde, por *squash*, y la rama se borra.
+5. Se fusiona con la integración continua en verde, con *merge commit* (las reglas de la organización no admiten
+   *squash* ni *rebase*: cada commit queda en el historial), y la rama se borra.
 
 ## Mensajes de commit
 
