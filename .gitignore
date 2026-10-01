@@ -1,0 +1,14 @@
+# --- Secretos (estandares/secretos.md en diexsa-ingenieria): siempre al final ---
+.env
+.env.*
+!.env.example
+*.pem
+*.p12
+*.pfx
+*.key
+*.jks
+*.keystore
+*.publishsettings
+secrets.json
+local.settings.json
+*.rdp

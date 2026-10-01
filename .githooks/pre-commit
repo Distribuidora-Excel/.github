@@ -5,8 +5,9 @@
 # Original en diexsa-ingenieria: plugins/diexsa/git-hooks/pre-commit. Cada repo lleva una copia en
 # .githooks/ que pone Instala-Hooks.ps1; no se edita aquí, se edita el original y se reinstala.
 #
-# Un falso positivo se permite en .gitleaksignore (por huella) o en .gitleaks.toml (por regla o
-# ruta), con un comentario que diga por qué no es un secreto. Nunca con --no-verify: la guardia
+# Un falso positivo se permite en .gitleaks.toml, por su valor exacto (anclado ^…$) o por una forma
+# acotada a un archivo, con un comentario que diga por qué no es un secreto. No en .gitleaksignore:
+# su huella lleva el número de línea y se rompe en cuanto el archivo cambia arriba. Nunca con --no-verify: la guardia
 # del plugin pide autorización para eso.
 
 if ! command -v gitleaks >/dev/null 2>&1; then
@@ -18,7 +19,29 @@ fi
 if ! gitleaks git --pre-commit --staged --redact --verbose --no-banner --log-level warn; then
   printf '\n%s\n' "commit rechazado: gitleaks encontró un posible secreto en lo que vas a confirmar (arriba, con el valor tapado)." >&2
   printf '%s\n' "  si es real: sácalo del archivo, usa una variable o el vault, y vuelve a agregarlo." >&2
-  printf '%s\n\n' "  si es un falso positivo: agrégalo a .gitleaksignore con un comentario de por qué." >&2
+  printf '%s\n\n' "  si es un falso positivo: agrega su valor exacto a .gitleaks.toml con un comentario de por qué." >&2
+  exit 1
+fi
+
+# Los estándares de Diexsa (estandares/ en diexsa-ingenieria) que se revisan desde fuera del repo: bloque de
+# secretos del .gitignore, hooks al día, gitleaks con sus reglas de fábrica... El comprobador vive en la raíz de
+# Repositorios; en un clon que no está junto a ella (la CI, otra máquina) no hay comprobador y el paso se salta.
+top="$(git rev-parse --show-toplevel)"
+for comprobador in "$top/estandares/comprobador/comprueba-repos.mjs" "$top/../estandares/comprobador/comprueba-repos.mjs"; do
+  if [ -f "$comprobador" ] && command -v node >/dev/null 2>&1; then
+    if ! node "$comprobador" --repo "$top"; then
+      printf '\n%s\n\n' "commit rechazado: el repo no cumple un estándar (arriba); ver estandares/README.md en diexsa-ingenieria." >&2
+      exit 1
+    fi
+    break
+  fi
+done
+
+# Paso propio del repo (F2-06): si existe .githooks/pre-commit.extra, también tiene que pasar. Vive
+# sólo en el repo que lo necesita (diexsa-ingenieria valida ahí el plugin), así que esta copia
+# común sigue siendo la misma en los 7.
+extra="$(git rev-parse --show-toplevel)/.githooks/pre-commit.extra"
+if [ -f "$extra" ] && ! sh "$extra"; then
   exit 1
 fi
 
