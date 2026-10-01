@@ -32,3 +32,4 @@
 
 - [ ] Ningún secreto ni ruta de un equipo en el diff
 - [ ] Commits con la convención y firmados
+- [ ] Si corrige un incidente, su registro va en este PR, en `docs/incidentes/AAAA-MM-DD-tema.md` del repo afectado (sin nombres, datos de clientes ni secretos)
