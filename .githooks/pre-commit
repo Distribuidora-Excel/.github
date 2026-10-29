@@ -23,14 +23,14 @@ if ! gitleaks git --pre-commit --staged --redact --verbose --no-banner --log-lev
   exit 1
 fi
 
-# Los estándares de Diexsa (estandares/ en diexsa-ingenieria) que se revisan desde fuera del repo: bloque de
+# Los estándares de Diexsa (plugins/diexsa/estandares/ en diexsa-ingenieria) que se revisan desde fuera del repo: bloque de
 # secretos del .gitignore, hooks al día, gitleaks con sus reglas de fábrica... El comprobador vive en la raíz de
 # Repositorios; en un clon que no está junto a ella (la CI, otra máquina) no hay comprobador y el paso se salta.
 top="$(git rev-parse --show-toplevel)"
-for comprobador in "$top/estandares/comprobador/comprueba-repos.mjs" "$top/../estandares/comprobador/comprueba-repos.mjs"; do
+for comprobador in "$top/plugins/diexsa/estandares/comprobador/comprueba-repos.mjs" "$top/../plugins/diexsa/estandares/comprobador/comprueba-repos.mjs"; do
   if [ -f "$comprobador" ] && command -v node >/dev/null 2>&1; then
     if ! node "$comprobador" --repo "$top"; then
-      printf '\n%s\n\n' "commit rechazado: el repo no cumple un estándar (arriba); ver estandares/README.md en diexsa-ingenieria." >&2
+      printf '\n%s\n\n' "commit rechazado: el repo no cumple un estándar (arriba); ver plugins/diexsa/estandares/README.md en diexsa-ingenieria." >&2
       exit 1
     fi
     break

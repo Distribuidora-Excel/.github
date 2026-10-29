@@ -1,0 +1,17 @@
+root = true
+
+# El fin de línea lo decide .gitattributes (índice en LF, cada copia con el de su plataforma), salvo en lo que
+# corre sh.
+[*]
+charset = utf-8
+insert_final_newline = true
+indent_style = space
+indent_size = 2
+trim_trailing_whitespace = true
+
+# En markdown dos espacios al final son un salto de línea; recortarlos cambia el texto.
+[*.md]
+trim_trailing_whitespace = false
+
+[.githooks/*]
+end_of_line = lf

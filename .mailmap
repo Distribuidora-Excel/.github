@@ -1,0 +1,3 @@
+# Una sola identidad por persona en git shortlog, git blame y git log --use-mailmap (F3-C74). Los merges hechos
+# desde GitHub firman con el nombre del perfil de GitHub; los commits locales, con user.name.
+Diego Morales <102205596+ivmg5@users.noreply.github.com>
